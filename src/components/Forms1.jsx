@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import useBreedlist from "./custom_hook";
 import Pet from "./Pet";
 const Location = ["", "Bengaluru", "Huballi", "Dharwad", "Davangere"];
 const Animals = ["", "dog", "reptile", "bird", "rabbit"];
@@ -7,7 +8,9 @@ const Search1 = () => {
   const [name, setName] = useState("");
   const [loc, setlocation] = useState("");
   const [animal, setanimal] = useState("");
+  const [breeds, setbreeds] = useState("");
   const [display, setDisplay] = useState([]);
+  const [breed] = useBreedlist(animal);
 
   //class types. [variable, method]
   //usestate(type).
@@ -15,7 +18,7 @@ const Search1 = () => {
   useEffect(() => {
     request();
     c++;
-  }, [animal]); // eslint-disable-line react-hooks/exhaustive-deps.
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps. [warning]
   //[] have dependencies that help render on change of the same.
   //useEffect(function,dependencies);  [] -> run it once.
 
@@ -60,15 +63,21 @@ const Search1 = () => {
         </select>
         <br />
 
-        <label
-          htmlFor="animal"
+        <label htmlFor="animal">Select animal:</label>
+        <select
+          id="animal"
           value={animal}
           onChange={(e) => setanimal(e.target.value)}
         >
-          Select animal:
-        </label>
-        <select>
           {Animals.map((f) => (
+            <option value={f}>{f}</option>
+          ))}
+        </select>
+        <br />
+
+        <label htmlFor="breed">Select breed:</label>
+        <select value={breeds} onChange={(e) => setbreeds(e.target.value)}>
+          {breed.map((f) => (
             <option value={f}>{f}</option>
           ))}
         </select>
